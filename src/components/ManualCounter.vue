@@ -1,17 +1,33 @@
 <template>
   <div class="container">
-    <h1>Contador Manual de Personas</h1>
-    <div v-if="!accessToken">Autenticando...</div>
-    <div v-else>
-      <p>Conteo: {{ counter }}</p>
+    <h1 class="my-4 text-center">Contador Manual de Personas</h1>
+    <div v-if="!accessToken">
+      <h2>Iniciar sesión</h2>
+      <form @submit.prevent="authenticate">
+        <div class="mb-3">
+          <label for="username" class="form-label">Nombre de usuario</label>
+          <input type="text" class="form-control" id="username" v-model="username" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="password" v-model="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+      </form>
+    </div>
+    <div v-else class="text-center">
+      <div class="counter-container mb-3">
+        <p>Conteo: <span class="counter-value">{{ counter }}</span></p>
+      </div><br>
       <button @click="add" class="btn btn-primary">Sumar</button>
-      <button @click="subtract" class="btn btn-danger">Restar</button>
+      <button @click="subtract" class="btn btn-danger">Restar</button><br>
+      <button @click="logout" class="btn btn-secondary mb-3">Cerrar sesión</button>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { login, sendCounterCommand } from '@/api';
 import { createSocketConnection } from '@/socket';
 
@@ -20,6 +36,8 @@ export default {
     const accessToken = ref(null);
     const socket = ref(null);
     const counter = ref(0);
+    const username = ref('');
+    const password = ref('');
 
     function updateCounter(newCounterValue) {
       console.log('Updating counter:', newCounterValue);
@@ -27,21 +45,19 @@ export default {
     }
 
     async function authenticate() {
-      const username = 'clicker3.demo';
-      const password = 'TEST.2022#';
-
       try {
-        const response = await login(username, password);
+        const response = await login(username.value, password.value);
         accessToken.value = response.access_token;
+        socket.value = createSocketConnection(accessToken.value, updateCounter);
       } catch (error) {
         console.error('Authentication error:', error);
       }
     }
 
-    onMounted(async () => {
-      await authenticate();
-      socket.value = createSocketConnection(accessToken.value, updateCounter);
-    });
+    function logout() {
+      accessToken.value = null;
+      socket.value.disconnect();
+    }
 
     async function add() {
       try {
@@ -65,6 +81,10 @@ export default {
     return {
       accessToken,
       counter,
+      username,
+      password,
+      authenticate,
+      logout,
       add,
       subtract,
     };
@@ -72,3 +92,19 @@ export default {
 };
 </script>
 
+<style scoped>
+.counter-container {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 10px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter-value {
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 5px;
+}
+</style>

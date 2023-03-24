@@ -1,15 +1,14 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <ManualCounter/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ManualCounter from '@/components/ManualCounter.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    ManualCounter
   }
 }
 </script>

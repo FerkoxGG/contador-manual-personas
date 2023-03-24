@@ -1,24 +1,16 @@
-# contador-manual-personas
+# Contador Manual de Personas
 
-## Project setup
-```
-npm install
-```
+Este proyecto es una aplicación web simple para llevar el control de un contador manual de personas. La aplicación permite a los usuarios iniciar sesión, sumar y restar del contador, y cerrar sesión.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Características
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- Inicio de sesión con autenticación de usuario.
+- Contador manual con botones para sumar y restar.
+- Actualización en tiempo real del contador mediante el uso de WebSockets.
+- Diseño responsivo utilizando Bootstrap 5.
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Tecnologías utilizadas
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- Vue.js
+- Bootstrap 5
+- Socket.io

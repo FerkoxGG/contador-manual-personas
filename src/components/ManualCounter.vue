@@ -1,27 +1,30 @@
 <template>
   <div class="container">
-    <h1 class="my-4 text-center">Contador Manual de Personas</h1>
-    <div v-if="!accessToken">
-      <h2>Iniciar sesión</h2>
-      <form @submit.prevent="authenticate">
-        <div class="mb-3">
-          <label for="username" class="form-label">Nombre de usuario</label>
-          <input type="text" class="form-control" id="username" v-model="username" required>
-        </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Contraseña</label>
-          <input type="password" class="form-control" id="password" v-model="password" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-      </form>
+    <h1 class="my-4 text-center display-1">Contador Manual de Personas</h1>
+    <div v-if="!accessToken" class="card d-flex justify-content-center align-items-center mx-auto" style="width: 18rem;">
+      <div class="card-body">
+        <form @submit.prevent="authenticate">
+          <div class="mb-3">
+            <label for="username" class="form-label">Nombre de usuario</label>
+            <input type="text" class="form-control" id="username" v-model="username" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="password" v-model="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+        </form>
+      </div>
     </div>
-    <div v-else class="text-center">
-      <div class="counter-container mb-3">
-        <p>Conteo: <span class="counter-value">{{ counter }}</span></p>
-      </div><br>
-      <button @click="add" class="btn btn-primary">Sumar</button>
-      <button @click="subtract" class="btn btn-danger">Restar</button><br>
-      <button @click="logout" class="btn btn-secondary mb-3">Cerrar sesión</button>
+    <div v-else class="card d-flex justify-content-center align-items-center mx-auto" style="width: 18rem;">
+      <div class="card-body">
+        <div class="counter-container mb-3">
+          <p>Conteo: <span class="counter-value">{{ counter }}</span></p>
+        </div><br>
+        <button @click="add" class="btn btn-primary m-1">Sumar</button>
+        <button @click="subtract" class="btn btn-danger m-1">Restar</button><br>
+        <button @click="logout" class="btn btn-secondary m-3">Cerrar sesión</button>
+      </div>
     </div>
   </div>
 </template>
